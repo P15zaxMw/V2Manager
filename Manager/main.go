@@ -58,6 +58,7 @@ var V2config string
 var CheckRate int
 var M2Version = "Beggar - V0.1.3"
 var Mydb *sql.DB
+var ratio float64
 
 var (
     cfg = flag.String("cfg", "", "Config file for Manager.")
@@ -139,6 +140,7 @@ func checkConfig(config parseConfig.Config) error{
     CheckItems["AlterID"] = "float64"
     CheckItems["Level"] = "float64"
     CheckItems["CheckRate"] = "float64"
+    CheckItems["ratio"] = "float64"
     for k, v := range CheckItems{
         var CheI = config.Get(k)
         if(CheI == nil){
@@ -173,6 +175,7 @@ func initConfig(config parseConfig.Config){
     Level = uint32(int(config.Get("Level").(float64)))
     AlterID = uint32(int(config.Get("AlterID").(float64)))
     CheckRate = int(config.Get("CheckRate").(float64))
+    ratio = config.Get("ratio").(float64)
 }
 
 func Run() error {
@@ -445,8 +448,8 @@ func CheckUsers(mcheck_time int){
                         usermap := make(map[string]string)
                         usermap["id"] = v["id"]
                         usermap["t"] = strconv.Itoa(int(time.Now().Unix()))
-                        usermap["u"] = strconv.Itoa(int(reti.Up))
-                        usermap["d"] = strconv.Itoa(int(reti.Down))
+                        usermap["u"] = strconv.Itoa(int(float64(reti.Up)*ratio))
+                        usermap["d"] = strconv.Itoa(int(float64(reti.Down)*ratio))
                         umymap[v["id"]] = usermap    
                     }
                 }else{
