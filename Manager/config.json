@@ -12,5 +12,6 @@
     "Email": "@test.com",
     "AlterID": 64,
     "Level": 1,
-    "CheckRate": 64
+    "CheckRate": 64,
+    "ratio": 1.0
 }
